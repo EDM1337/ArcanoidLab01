@@ -117,6 +117,8 @@ class paddle():
         self.rect = Rect(self.x, self.y, self.width, self.height)
         self.direction = 0
 
+
+
 class game_ball():
     def __init__(self, x, y):
         self.y = None
@@ -206,3 +208,53 @@ class game_ball():
         self.speed_y = -4
         self.speed_max = 5
         self.game_over = 0
+
+#create a wall
+wall = Wall()
+wall.create_wall()
+#create paddle
+player_paddle = paddle()
+#create ball
+ball = game_ball(player_paddle.x + (player_paddle.width // 2), player_paddle.y - player_paddle.height)
+
+run = True
+while run:
+
+    clock.tick(fps)
+
+    screen.fill(bg)
+
+    # draw all objects
+    wall.draw_wall()
+    player_paddle.draw()
+    ball.draw()
+
+    if live_ball:
+        # draw paddle
+        player_paddle.move()
+        # draw ball
+        game_over = ball.move()
+        if game_over != 0:
+            live_ball = False
+
+    # print player instructions
+    if not live_ball:
+        if game_over == 0:
+            draw_text('CLICK ANYWHERE TO START', font, text_col, 100, screen_height // 2 + 100)
+        elif game_over == 1:
+            draw_text('YOU WON!', font, text_col, 240, screen_height // 2 + 50)
+            draw_text('CLICK ANYWHERE TO START', font, text_col, 100, screen_height // 2 + 100)
+        elif game_over == -1:
+            draw_text('YOU LOST!', font, text_col, 240, screen_height // 2 + 50)
+            draw_text('CLICK ANYWHERE TO START', font, text_col, 100, screen_height // 2 + 100)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+        if event.type == pygame.MOUSEBUTTONDOWN and live_ball is False:
+            live_ball = True
+            ball.reset(player_paddle.x + (player_paddle.width // 2), player_paddle.y - player_paddle.height)
+            player_paddle.reset()
+            wall.create_wall()
+
+    pygame.display.update()
