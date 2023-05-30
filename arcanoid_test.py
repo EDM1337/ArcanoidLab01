@@ -39,3 +39,11 @@ def test_ball_bounce_off_wall():
     # Assert the expected outcome of the bounce
     assert game_ball_instance.speed_x > 0  # Ball should reverse its horizontal direction
     # Add more assertions as needed for other properties affected by the bounce
+
+def test_game_over():
+    # Передаємо необхідні параметри для перевірки
+    game_over = True  # Припустимо, гра завершилась
+    assert is_game_over(game_over) is True
+
+
+pytest.main(["-v", "--html=report_arcanoid.html"])
