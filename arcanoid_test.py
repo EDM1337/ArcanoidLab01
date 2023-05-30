@@ -25,3 +25,17 @@ def test_game_ball_reset(create_player_paddle, create_game_ball):
     assert create_game_ball.speed_x == 4
     assert create_game_ball.speed_y == -4
     assert create_game_ball.game_over == 0
+
+def test_ball_bounce_off_wall():
+    game_ball_instance = game_ball(200, 300)  # Замініть game_ball на game_ball_instance
+
+    # Set up the ball and simulate bouncing off the wall
+    game_ball_instance.speed_x = -3
+    game_ball_instance.rect.x = 0
+    game_ball_instance.rect.y = 300
+
+    game_ball_instance.bounce_off_wall()
+
+    # Assert the expected outcome of the bounce
+    assert game_ball_instance.speed_x > 0  # Ball should reverse its horizontal direction
+    # Add more assertions as needed for other properties affected by the bounce
