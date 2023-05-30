@@ -258,3 +258,13 @@ while run:
             wall.create_wall()
 
     pygame.display.update()
+
+def is_game_over(game_over):
+    # Перевіряємо стан гри та повертаємо результат
+    if game_over:
+        return True
+    else:
+        return False
+
+
+pygame.quit()
