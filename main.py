@@ -30,9 +30,11 @@ fps = 60
 live_ball = False
 game_over = 0
 
+
 def draw_text(text, font, text_col, x, y):
     img = font.render(text, True, text_col)
     screen.blit(img, (x, y))
+
 
 class Wall():
     def __init__(self):
@@ -82,6 +84,7 @@ class Wall():
                 pygame.draw.rect(screen, block_col, block[0])
                 pygame.draw.rect(screen, bg, (block[0]), 2)
 
+
 class paddle():
     def __init__(self):
         self.rect = None
@@ -116,7 +119,6 @@ class paddle():
         self.speed = 10
         self.rect = Rect(self.x, self.y, self.width, self.height)
         self.direction = 0
-
 
 
 class game_ball():
@@ -209,12 +211,13 @@ class game_ball():
         self.speed_max = 5
         self.game_over = 0
 
-#create a wall
+
+# create a wall
 wall = Wall()
 wall.create_wall()
-#create paddle
+# create paddle
 player_paddle = paddle()
-#create ball
+# create ball
 ball = game_ball(player_paddle.x + (player_paddle.width // 2), player_paddle.y - player_paddle.height)
 
 run = True
@@ -266,6 +269,5 @@ def is_game_over(game_over):
         return True
     else:
         return False
-
 
 pygame.quit()
