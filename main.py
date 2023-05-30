@@ -116,3 +116,93 @@ class paddle():
         self.speed = 10
         self.rect = Rect(self.x, self.y, self.width, self.height)
         self.direction = 0
+
+class game_ball():
+    def __init__(self, x, y):
+        self.y = None
+        self.x = None
+        self.speed_x = None
+        self.speed_y = None
+        self.speed_max = None
+        self.rect = None
+        self.ball_rad = None
+        self.game_over = None
+        self.reset(x, y)
+
+    def move(self):
+        collision_thresh = 5
+        wall_destroyed = 1
+        row_count = 0
+        for row in wall.blocks:
+            item_count = 0
+            for item in row:
+
+                if self.rect.colliderect(item[0]):
+
+                    if abs(self.rect.bottom - item[0].top) < collision_thresh and self.speed_y > 0:
+                        self.speed_y *= -1
+
+                    if abs(self.rect.top - item[0].bottom) < collision_thresh and self.speed_y < 0:
+                        self.speed_y *= -1
+
+                    if abs(self.rect.right - item[0].left) < collision_thresh and self.speed_x > 0:
+                        self.speed_x *= -1
+
+                    if wall.blocks[row_count][item_count][1] > 1:
+                        wall.blocks[row_count][item_count][1] -= 1
+                    else:
+                        wall.blocks[row_count][item_count][0] = (0, 0, 0, 0)
+
+                if wall.blocks[row_count][item_count][0] != (0, 0, 0, 0):
+                    wall_destroyed = 0
+
+                item_count += 1
+
+            row_count += 1
+
+        if wall_destroyed == 1:
+            self.game_over = 1
+
+        if self.rect.left < 0 or self.rect.right > screen_width:
+            self.speed_x *= -1
+
+        if self.rect.top < 0:
+            self.speed_y *= -1
+        if self.rect.bottom > screen_height:
+            self.game_over = -1
+
+        if self.rect.colliderect(player_paddle):
+
+            if abs(self.rect.bottom - player_paddle.rect.top) < collision_thresh and self.speed_y > 0:
+                self.speed_y *= -1
+                self.speed_x += player_paddle.direction
+                if self.speed_x > self.speed_max:
+                    self.speed_x = self.speed_max
+                elif self.speed_x < 0 and self.speed_x < -self.speed_max:
+                    self.speed_x = -self.speed_max
+            else:
+                self.speed_x *= -1
+
+        self.rect.x += self.speed_x
+        self.rect.y += self.speed_y
+
+        return self.game_over
+
+    def draw(self):
+        pygame.draw.circle(screen, paddle_col, (self.rect.x + self.ball_rad, self.rect.y + self.ball_rad),
+                           self.ball_rad)
+        pygame.draw.circle(screen, paddle_outline, (self.rect.x + self.ball_rad, self.rect.y + self.ball_rad),
+                           self.ball_rad, 3)
+
+    def bounce_off_wall(self):
+        self.speed_x *= -1
+
+    def reset(self, x, y):
+        self.ball_rad = 10
+        self.x = x - self.ball_rad
+        self.y = y
+        self.rect = Rect(self.x, self.y, self.ball_rad * 2, self.ball_rad * 2)
+        self.speed_x = 4
+        self.speed_y = -4
+        self.speed_max = 5
+        self.game_over = 0
