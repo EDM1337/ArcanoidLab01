@@ -259,6 +259,7 @@ while run:
 
     pygame.display.update()
 
+
 def is_game_over(game_over):
     # Перевіряємо стан гри та повертаємо результат
     if game_over:
