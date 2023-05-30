@@ -33,3 +33,38 @@ game_over = 0
 def draw_text(text, font, text_col, x, y):
     img = font.render(text, True, text_col)
     screen.blit(img, (x, y))
+
+class Wall():
+    def __init__(self):
+        self.blocks = None
+        self.width = screen_width // cols
+        self.height = 50
+
+    def create_wall(self):
+        global strength
+        self.blocks = []
+
+        block_individual = []
+        for row in range(rows):
+
+            block_row = []
+
+            for col in range(cols):
+
+                block_x = col * self.width
+                block_y = row * self.height
+                rect = pygame.Rect(block_x, block_y, self.width, self.height)
+
+                if row < 2:
+                    strength = 3
+                elif row < 4:
+                    strength = 2
+                elif row < 6:
+                    strength = 1
+
+                block_individual = [rect, strength]
+
+                block_row.append(block_individual)
+
+            self.blocks.append(block_row)
+
