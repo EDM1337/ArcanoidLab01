@@ -269,5 +269,4 @@ def is_game_over(game_over):
         return True
     else:
         return False
-
 pygame.quit()
