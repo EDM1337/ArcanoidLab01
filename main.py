@@ -82,4 +82,12 @@ class Wall():
                 pygame.draw.rect(screen, block_col, block[0])
                 pygame.draw.rect(screen, bg, (block[0]), 2)
 
-
+class paddle():
+    def __init__(self):
+        self.rect = None
+        self.width = None
+        self.direction = None
+        self.speed = None
+        self.x = None
+        self.height = None
+        self.reset()
