@@ -51,3 +51,4 @@ def test_game_over():
     assert is_game_over(game_over) is True
 
 pytest.main(["-v", "--html=report_arcanoid.html"])
+
